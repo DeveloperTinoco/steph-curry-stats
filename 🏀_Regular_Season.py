@@ -1,6 +1,6 @@
-import pandas as pd
 import streamlit as st
 import plotly.express as px
+from functions import get_data
 
 # Set page config
 st.set_page_config(page_title="Regular Season Stats",
@@ -8,16 +8,8 @@ st.set_page_config(page_title="Regular Season Stats",
                    layout="wide")
 
 # Extract data from tables
-table = pd.read_html("https://www.basketball-reference.com/players/c/curryst01.html", attrs={"id": "per_game"})
-table2 = pd.read_html("https://www.basketball-reference.com/players/c/curryst01.html", attrs={"id": "totals"})
-
-# Concat the list together to become a df
-df = pd.concat(table)
-df2 = pd.concat(table2)
-
-# Drop unnecessary info from df
-df = df.drop(index=13, columns=['Tm', 'Lg', 'Pos'])
-df2 = df2.drop(index=13, columns=['Tm', 'Lg', 'Pos', 'Unnamed: 30'])
+df = get_data(13, 'per_game', ['Tm', 'Lg', 'Pos'])
+df2 = get_data(13, 'totals', ['Tm', 'Lg', 'Pos', 'Unnamed: 30'])
 
 # Set title of page
 st.markdown("<h1 style='text-align: center;'>🏀Steph Curry's Regular Season Career Statistics🏀</h1>", unsafe_allow_html=True)
